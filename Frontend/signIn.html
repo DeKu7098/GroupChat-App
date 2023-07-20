@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="./signUp.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form id="form">
+        <div class="login-box">
+            <div class="login-header">
+                <header>Sign In</header>
+            </div>
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Email" autocomplete="off" required id="email">
+            </div>
+            <div class="input-box">
+                <input type="password" class="input-field" placeholder="Password" autocomplete="off" required
+                    id="password">
+            </div>
+            <header id="wrongPassword"></header>
+            <div class="input-submit">
+                <button class="submit-btn" id="submit"></button>
+                <label for="submit">Sign In</label>
+            </div>
+    </form>
+    <div class="sign-up-link">
+        <p>Don't have an account? <a href="./signUp.html">Sign Up</a></p>
+    </div>
+</body>
+
+<script>
+    document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const email = document.getElementById('email').value
+        const password = document.getElementById('password').value
+        try {
+            const output = document.getElementById('wrongPassword')
+            const config = {
+                url: "http://localhost:3000/user/signIn",
+                method: "POST",
+                data: {
+                    'email': email,
+                    'password': password
+                }
+            }
+            const data = await axios(config)
+            if (data) {
+                localStorage.setItem('TOKEN', data.data.token)
+                output.innerHTML = "logging in"
+                output.style.color = "green"
+                setTimeout(() => {
+                    localStorage.removeItem('massages')
+                    window.location.href = "./userUi.html"
+                }, 1000)
+            }
+        } catch (err) {
+            const output = document.getElementById('wrongPassword')
+            if (err.response.status == 500) {
+                output.innerHTML = "something went wrong"
+                output.style.color = "red"
+            } else if (err.response.status == 404) {
+                output.innerHTML = "email not found"
+                output.style.color = "red"
+            } else if (err.response.status == 501) {
+                output.innerHTML = "Wrong Password"
+                output.style.color = "red"
+            }
+        }
+    })
+</script>
+
+</html>
