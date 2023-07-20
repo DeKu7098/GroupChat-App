@@ -16,13 +16,13 @@
                 <header>Sign up</header>
             </div>
             <div class="input-box">
-                <input type="text" class="input-field" placeholder="Name" autocomplete="off" required id="nam">
+                <input type="text" class="input-field" placeholder="Name" autocomplete="off" required id="name">
             </div>
             <div class="input-box">
-                <input type="text" class="input-field" placeholder="Email" autocomplete="off" required id="emai">
+                <input type="text" class="input-field" placeholder="Email" autocomplete="off" required id="email">
             </div>
             <div class="input-box">
-                <input type="number" class="input-field" placeholder="Phone no" autocomplete="off" required id="num">
+                <input type="number" class="input-field" placeholder="Phone No." autocomplete="off" required id="num">
             </div>
             <div class="input-box">
                 <input type="password" class="input-field" placeholder="Password" autocomplete="off" required
@@ -35,6 +35,46 @@
             </div>
     </form>
     <div class="sign-up-link">
-        <p>Already have an account? &nbsp; <a href="./sign_in.html">Sign In</a></p>
+        <p>Already have an account? &nbsp; <a href="./signIn.html">Sign In</a></p>
     </div>
 </body>
+<script>
+    document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault()
+        var name = document.getElementById('name').value
+        var email = document.getElementById('email').value
+        var phone = document.getElementById('num').value
+        var password = document.getElementById('password1').value
+
+        try {
+            console.log(name, email, phone, password);
+            const config = {
+                url: "http://localhost:3000/user/signUp",
+                method: "POST",
+                data: {
+                    'name': name,
+                    'email': email,
+                    'phone': phone,
+                    'password': password
+                }
+            }
+            const data = await axios(config);
+            console.log(data)
+            var output = document.getElementById('emailalread');
+            output.innerHTML = 'Account Created Successfully'
+            output.style.color = 'green'
+        } catch (err) {
+            if (err.response.status == 500) {
+                var output = document.getElementById('emailalread');
+                output.innerHTML = 'something went wrong'
+                output.style.color = 'red'
+            } else if (err.response.status == 501) {
+                var output = document.getElementById('emailalread');
+                output.innerHTML = 'OOPS! Already a user'
+                output.style.color = 'red'
+            }
+        }
+    })
+</script>
+</html>
+

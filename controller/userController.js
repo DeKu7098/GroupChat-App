@@ -3,7 +3,7 @@ const sequelize = require("../connect");
 const jwt=require('jsonwebtoken')
 const USER = require("../models/user");
 
-async function signUp(req, res) {
+ exports.signUp = async (req, res) => {
   try {
     const t = await sequelize.transaction();
     const name = req.body.name;
@@ -41,5 +41,3 @@ async function signUp(req, res) {
     res.status(500).json({ message: err });
   }
 }
-
-module.exports = { signUp };
