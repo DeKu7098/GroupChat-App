@@ -28,7 +28,7 @@
                 <input type="password" class="input-field" placeholder="Password" autocomplete="off" required
                     id="password1">
             </div>
-            <header id="emailalread"></header>
+            <p class="emailRead" id="emailalread"></p>
             <div class="input-submit">
                 <button class="submit-btn" id="submit"></button>
                 <label for="submit">Sign Up</label>
@@ -63,6 +63,8 @@
             var output = document.getElementById('emailalread');
             output.innerHTML = 'Account Created Successfully'
             output.style.color = 'green'
+            alert('User Created Successfully!');
+            window.location.href = "./signIn.html"
         } catch (err) {
             if (err.response.status == 500) {
                 var output = document.getElementById('emailalread');

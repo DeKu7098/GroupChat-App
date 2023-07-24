@@ -61,10 +61,10 @@
         } catch (err) {
             const output = document.getElementById('wrongPassword')
             if (err.response.status == 500) {
-                output.innerHTML = "something went wrong"
+                output.innerHTML = "Something Went Wrong"
                 output.style.color = "red"
             } else if (err.response.status == 404) {
-                output.innerHTML = "email not found"
+                output.innerHTML = "Email Not Found"
                 output.style.color = "red"
             } else if (err.response.status == 501) {
                 output.innerHTML = "Wrong Password"
